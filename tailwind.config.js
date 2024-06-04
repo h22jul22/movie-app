@@ -3,6 +3,17 @@ export default {
     content: ['./src/**/*.{html,js,jsx,tsx}'],
     theme: {
         extend: {},
+        screens: {
+            sm: { max: '768px' },
+            // => @media (min-width: 576px) { ... }
+
+            md: { max: '1139px' },
+            // => @media (min-width: 960px) { ... }
+
+            lg: '1140px',
+            // => @media (min-width: 1440px) { ... }
+        },
+        important: true,
     },
     plugins: [],
 };

@@ -1,8 +1,23 @@
 import MovieDetail from '../../components/MovieDetail';
+import { useParams } from 'react-router-dom';
+import axiosIns from '../../api/axios';
+import { useEffect, useState } from 'react';
 
-const DetailPage = ({ movieDetail }) => {
+const DetailPage = () => {
+    const { movieId } = useParams();
+    const [movieDetail, setMovieDetail] = useState([]);
+
+    const fetchDetailData = async () => {
+        const response = await axiosIns.get(`/movie/${movieId}`);
+        setMovieDetail(response.data);
+    };
+
+    useEffect(() => {
+        fetchDetailData();
+    }, []);
+
     return (
-        <div className='mx-20 my-8'>
+        <div className='container mx-auto mt-20'>
             <MovieDetail movieDetail={movieDetail} />
         </div>
     );

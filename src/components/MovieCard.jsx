@@ -5,7 +5,7 @@ const MovieCard = ({ movie }) => {
     const navigator = useNavigate();
 
     const moveToDetail = () => {
-        navigator('/details');
+        navigator(`/${movie.id}`);
     };
 
     return (
@@ -14,7 +14,9 @@ const MovieCard = ({ movie }) => {
                 className='h-[300px] mb-2'
                 src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
             />
-            <h2 className='text-lg font-bold ml-1'>{movie.title}</h2>
+            <h2 className='text-lg font-bold ml-1'>
+                {movie.title ? movie.title : movie.original_title}
+            </h2>
             <div className='flex self-end gap-[0.125rem] mr-2'>
                 <TiStarFullOutline className='mt-1' />
                 {movie.vote_average.toFixed(1)}

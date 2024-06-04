@@ -3,30 +3,31 @@ import './App.css';
 import Layout from './components/Layout';
 import MainPage from './pages/MainPage';
 import DetailPage from './pages/DetailPage';
-import movieListData from './data/movieListData.json';
-import movieDetailData from './data/movieDetailData.json';
-// import { useState, useEffect } from 'react';
+import SignUpPage from './pages/SignUpPage';
+import { useState, useEffect } from 'react';
+import axiosIns from './api/axios';
+import Login from './pages/LoginPage';
 
 function App() {
-    //   const [movies, setMovies] = useState([]);
-    // const [movieDetail, setMovieDetail] = useState({});
+    const [movies, setMovies] = useState([]);
 
-    //   useEffect(() => {
-    //       if (movieListData.results) {
-    //           setMovies(movieListData.results);
-    //           setMovieDetail(movieDetailData);
-    //       }
-    //   }, []);
+    const fetchData = async () => {
+        const response = await axiosIns.get('/movie/popular');
+        setMovies(response.data.results);
+    };
 
-    const movies = movieListData.results;
-    const movieDetail = movieDetailData;
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <>
             <Routes>
                 <Route path='/' element={<Layout />}>
                     <Route index element={<MainPage movies={movies} />} />
-                    <Route path='details' element={<DetailPage movieDetail={movieDetail} />} />
+                    <Route path=':movieId' element={<DetailPage />} />
+                    <Route path='signUp' element={<SignUpPage />} />
+                    <Route path='login' element={<Login />} />
                 </Route>
             </Routes>
         </>
