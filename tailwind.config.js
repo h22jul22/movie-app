@@ -7,10 +7,10 @@ export default {
             sm: { max: '768px' },
             // => @media (min-width: 576px) { ... }
 
-            md: { max: '1139px' },
+            md: { max: '1279px' },
             // => @media (min-width: 960px) { ... }
 
-            lg: '1140px',
+            lg: '1280px',
             // => @media (min-width: 1440px) { ... }
         },
         important: true,

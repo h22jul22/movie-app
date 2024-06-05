@@ -4,9 +4,9 @@ const inputStyle = 'h-10 p-2 w-full border border-solid border-slate-300 rounded
 
 const SignUp = () => {
     return (
-        <form className='w-96 absolute top-[20%] left-1/2 transform -translate-x-1/2 -translate-y-[20%]'>
+        <form className='w-96 absolute top-[56] left-[35%] transform -translate-x-[35%] -translate-y-[56]'>
             <fieldset>
-                <legend className='my-8 text-lg font-bold text-center'>CAT MOVIE</legend>
+                <legend className='my-6 text-lg font-bold text-center'>회원 가입</legend>
                 <ul className='flex flex-col gap-6'>
                     <li className={liStyle}>
                         <label className={labelStyle} htmlFor='username'>

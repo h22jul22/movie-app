@@ -4,9 +4,9 @@ const inputStyle = 'h-10 p-2 w-full border border-solid border-slate-300 rounded
 
 const Login = () => {
     return (
-        <form className='w-96 absolute top-[14%] left-1/2 transform -translate-x-1/2 -translate-y-[14%]'>
+        <form className='w-96 absolute top-[56] left-[35%] transform -translate-x-[35%] -translate-y-[56]'>
             <fieldset>
-                <legend className='my-8 text-lg font-bold text-center'>CAT MOVIE</legend>
+                <legend className='my-6 text-lg font-bold text-center'>로그인</legend>
                 <ul className='flex flex-col gap-4'>
                     <li className={liStyle}>
                         <label className={labelStyle} htmlFor='username'>
