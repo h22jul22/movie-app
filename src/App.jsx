@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import './App.css';
 import Layout from './components/Layout';
 import MainPage from './pages/MainPage';
 import DetailPage from './pages/DetailPage';
@@ -8,13 +7,16 @@ import { useState, useEffect, useCallback } from 'react';
 import axiosIns from './api/axios';
 import SearchPage from './pages/SearchPage';
 import LoginPage from './pages/LoginPage';
+import UserProvider from './context/UserContext';
+import UserLikedProvider from './context/UserLikedContext';
+import LikedMoviePage from './pages/LikedMoviePage';
 
 function App() {
     const [movies, setMovies] = useState([]);
 
     const fetchData = useCallback(async () => {
         try {
-            const response = await axiosIns.get('/movie/popular');
+            const response = await axiosIns.get('/movie/top_rated');
             setMovies(response.data.results);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -26,17 +28,20 @@ function App() {
     }, [fetchData]);
 
     return (
-        <>
-            <Routes>
-                <Route path='/' element={<Layout />}>
-                    <Route index element={<MainPage movies={movies} />} />
-                    <Route path=':movieId' element={<DetailPage />} />
-                    <Route path='signUp' element={<SignUpPage />} />
-                    <Route path='login' element={<LoginPage />} />
-                    <Route path='search' element={<SearchPage />} />
-                </Route>
-            </Routes>
-        </>
+        <UserLikedProvider>
+            <UserProvider>
+                <Routes>
+                    <Route path='/' element={<Layout />}>
+                        <Route index element={<MainPage movies={movies} />} />
+                        <Route path=':movieId' element={<DetailPage />} />
+                        <Route path='signUp' element={<SignUpPage />} />
+                        <Route path='login' element={<LoginPage />} />
+                        <Route path='search' element={<SearchPage />} />
+                        <Route path='likeList' element={<LikedMoviePage />} />
+                    </Route>
+                </Routes>
+            </UserProvider>
+        </UserLikedProvider>
     );
 }
 

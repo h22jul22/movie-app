@@ -1,33 +1,59 @@
-import { TiStarFullOutline } from 'react-icons/ti';
+import { useContext } from 'react';
+import { TiHeartOutline, TiHeartFullOutline } from 'react-icons/ti';
+import { UserLikedContext } from '../context/UserLikedContext';
+import { useParams } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
+import truncate from '../constant';
 
 const MovieDetail = ({ movieDetail }) => {
-    const truncate = (str, n) => {
-        return str?.length > n ? str.substring(0, n) + '...' : str;
+    const { likeMovies, toggleLike } = useContext(UserLikedContext);
+    const { movieId } = useParams();
+    const { userData } = useContext(UserContext);
+
+    const isLikedMovie = likeMovies.find((movie) => movie.id === movieId);
+    const isLiked = isLikedMovie ? isLikedMovie.isLiked : false;
+
+    const handleToggle = () => {
+        if (userData) {
+            toggleLike(movieId);
+        } else {
+            alert('로그인 후 이용해주세요.');
+        }
     };
 
     return (
-        <div className='grid grid-cols-2 justify-center h-full'>
+        <div className='grid grid-cols-2 md:grid-cols-1 md:grid-rows-2 md:max-w-[500px] justify-center mx-auto max-w-[1020px] h-full'>
             <div>
                 <img
-                    className='w-full h-5/6 object-contain'
-                    src={`https://image.tmdb.org/t/p/w500${movieDetail.poster_path}`}
+                    className='h-full object-cover rounded-lg'
+                    src={`https://image.tmdb.org/t/p/w500${movieDetail.backdrop_path}`}
                 />
             </div>
-            <div className='flex flex-col h-5/6 lg:gap-4 md:gap-3 md:mr-8 sm:!gap-0'>
-                <div className='flex justify-between items-center mt-12 mb-8 sm:flex-col sm:items-start sm:gap-2 sm:my-8'>
-                    <h1 className='lg:text-4xl md:text-3xl sm:!text-2xl font-bold grow'>
+            <div className='flex flex-col px-6'>
+                <div className='flex justify-between items-center my-8'>
+                    <h1 className='grow font-bold text-2xl'>
                         {movieDetail.title ? movieDetail.title : movieDetail.original_title}
                     </h1>
-                    <span className='flex gap-[0.125rem] lg:text-2xl md:text-xl sm:!text-lg w-24'>
-                        <TiStarFullOutline className='mt-1' />
+                    <span className='flex gap-[0.2rem] text-xl'>
+                        {!isLiked ? (
+                            <TiHeartOutline
+                                className='text-3xl animate-bounce cursor-pointer'
+                                onClick={handleToggle}
+                            />
+                        ) : (
+                            <TiHeartFullOutline
+                                className='text-3xl animate-bounce cursor-pointer'
+                                onClick={handleToggle}
+                            />
+                        )}
                         {movieDetail.vote_average?.toFixed(1)}
                     </span>
                 </div>
-                <div className='my-4 lg:text-xl md:text-lg sm:!text-base'>
+                <div className='my-3 text-lg'>
                     장르:{movieDetail.genres?.map((genre) => ' ' + genre.name)}
                 </div>
-                <div className='my-4 lg:text-xl md:text-lg sm:!hidden'>
-                    {truncate(movieDetail.overview, 150)}
+                <div className='my-5 text-justify text-lg'>
+                    {truncate(movieDetail.overview, 100)}
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 import { TiStarFullOutline } from 'react-icons/ti';
 import { useNavigate } from 'react-router-dom';
+import truncate from '../constant';
 
 const MovieCard = ({ movie }) => {
     const navigator = useNavigate();
@@ -8,14 +9,18 @@ const MovieCard = ({ movie }) => {
         navigator(`/${movie.id}`);
     };
 
+    truncate;
+
     return (
-        <div className='flex flex-col mb-4 cursor-pointer' onClick={moveToDetail}>
+        <div
+            className='flex flex-col mb-4 w-[200px] sm:!w-[300px] cursor-pointer'
+            onClick={moveToDetail}>
             <img
-                className='h-[300px] mb-2'
+                className='h-[300px] sm:!h-[400px] mb-2 hover:scale-105 hover:duration-100 rounded-lg'
                 src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
             />
             <h2 className='text-lg font-bold ml-1'>
-                {movie.title ? movie.title : movie.original_title}
+                {movie.title ? truncate(movie.title, 30) : truncate(movie.original_title, 30)}
             </h2>
             <div className='flex self-end gap-[0.125rem] mr-2'>
                 <TiStarFullOutline className='mt-1' />

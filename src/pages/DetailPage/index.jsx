@@ -17,7 +17,7 @@ const DetailPage = () => {
     }, []);
 
     return (
-        <div className='container mx-auto mt-20'>
+        <div className='mt-20 w-screen'>
             <MovieDetail movieDetail={movieDetail} />
         </div>
     );

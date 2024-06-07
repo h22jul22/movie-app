@@ -1,11 +1,12 @@
 import MovieCard from '../../components/MovieCard';
 import axiosIns from '../../api/axios';
 import { useCallback, useEffect, useState } from 'react';
+import Banner from '../../components/Banner';
 
 const MainPage = ({ movies }) => {
     // 무한 스크롤 구현하기
     const [moreMovies, setMoreMovies] = useState(movies);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(2);
 
     const fetchMoreData = useCallback(async () => {
         try {
@@ -41,12 +42,19 @@ const MainPage = ({ movies }) => {
     }, [movies]);
 
     return (
-        <div className='container mx-auto mt-14'>
-            <ul className='grid gap-8 lg:grid-cols-5 md:grid-cols-4 sm:!grid-cols-3'>
-                {moreMovies.map((movie) => (
-                    <MovieCard key={movie.id} movie={movie} />
-                ))}
-            </ul>
+        <div>
+            <div className='mt-20'>
+                <ul className='relative'>
+                    <Banner />
+                </ul>
+            </div>
+            <div className='container mx-auto mt-14'>
+                <ul className='grid gap-8 justify-items-center lg:grid-cols-5 md:grid-cols-3 sm:!grid-cols-1'>
+                    {moreMovies.map((movie) => (
+                        <MovieCard key={movie.id} movie={movie} />
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 };
