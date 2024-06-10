@@ -27,13 +27,27 @@ const Login = () => {
         if (email && password) {
             await signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    window.localStorage.setItem('userData', JSON.stringify(userCredential.user));
+                    localStorage.setItem('userData', JSON.stringify(userCredential.user));
                     setUserData(userCredential.user);
                     navigator('/');
                 })
                 .catch((error) => {
                     console.log(error.code, error.message);
-                    alert(error.message);
+                    switch (error.code) {
+                        case 'auth/invalid-credential':
+                            alert('사용자 정보가 올바르지 않습니다.');
+                            break;
+                        case 'auth/invalid-email':
+                            alert('이메일 주소가 올바르지 않습니다.');
+                            break;
+                        case 'auth/too-many-requests':
+                            alert(
+                                '로그인 가능 횟수를 초과하여 일시적으로 이 계정에 접속할 수 없습니다.'
+                            );
+                            break;
+                        default:
+                            alert(error.message);
+                    }
                 });
         } else {
             alert('* 이메일과 비밀번호를 입력해주세요.');
@@ -44,7 +58,7 @@ const Login = () => {
         e.preventDefault();
         signInWithPopup(auth, provider)
             .then((result) => {
-                window.localStorage.setItem('userData', JSON.stringify(result.user));
+                localStorage.setItem('userData', JSON.stringify(result.user));
                 setUserData(result.user);
                 navigator('/');
             })

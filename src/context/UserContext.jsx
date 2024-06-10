@@ -9,6 +9,9 @@ const UserProvider = ({ children }) => {
 
     useEffect(() => {
         localStorage.setItem('userData', JSON.stringify(userData));
+        if (userData === null) {
+            localStorage.removeItem('userData');
+        }
     }, [userData]);
 
     return (

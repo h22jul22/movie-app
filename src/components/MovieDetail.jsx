@@ -1,16 +1,14 @@
 import { useContext } from 'react';
-import { TiHeartOutline, TiHeartFullOutline } from 'react-icons/ti';
+import { TiHeartOutline, TiHeartFullOutline, TiStarFullOutline } from 'react-icons/ti';
 import { UserLikedContext } from '../context/UserLikedContext';
 import { useParams } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
 import truncate from '../constant';
 
 const MovieDetail = ({ movieDetail }) => {
-    const { likeMovies, toggleLike } = useContext(UserLikedContext);
+    const { userData, toggleLike } = useContext(UserLikedContext);
     const { movieId } = useParams();
-    const { userData } = useContext(UserContext);
 
-    const isLikedMovie = likeMovies.find((movie) => movie.id === movieId);
+    const isLikedMovie = userData?.likedMovies?.find((movie) => movie.id === movieId);
     const isLiked = isLikedMovie ? isLikedMovie.isLiked : false;
 
     const handleToggle = () => {
@@ -26,15 +24,19 @@ const MovieDetail = ({ movieDetail }) => {
             <div>
                 <img
                     className='h-full object-cover rounded-lg'
-                    src={`https://image.tmdb.org/t/p/w500${movieDetail.backdrop_path}`}
+                    src={
+                        movieDetail.backdrop_path
+                            ? `https://image.tmdb.org/t/p/w500${movieDetail.backdrop_path}`
+                            : `https://image.tmdb.org/t/p/w500${movieDetail.poster_path}`
+                    }
                 />
             </div>
             <div className='flex flex-col px-6'>
-                <div className='flex justify-between items-center my-8'>
-                    <h1 className='grow font-bold text-2xl'>
+                <div className='flex justify-start items-center gap-3 mt-7 mb-10'>
+                    <h1 className='font-bold text-[26px]'>
                         {movieDetail.title ? movieDetail.title : movieDetail.original_title}
                     </h1>
-                    <span className='flex gap-[0.2rem] text-xl'>
+                    <div>
                         {!isLiked ? (
                             <TiHeartOutline
                                 className='text-3xl animate-bounce cursor-pointer'
@@ -46,11 +48,21 @@ const MovieDetail = ({ movieDetail }) => {
                                 onClick={handleToggle}
                             />
                         )}
+                    </div>
+                </div>
+                <div className='my-3 flex justify-start gap-2 flex-wrap'>
+                    <span className='flex gap-[0.125rem] border border-[gold] bg-[gold] text-base px-2 rounded-md'>
+                        <TiStarFullOutline className='mt-1' />
                         {movieDetail.vote_average?.toFixed(1)}
                     </span>
-                </div>
-                <div className='my-3 text-lg'>
-                    장르:{movieDetail.genres?.map((genre) => ' ' + genre.name)}
+                    {movieDetail.genres &&
+                        movieDetail.genres.map((genre, index) => (
+                            <span
+                                className='border border-gray-300 bg-gray-300 text-base px-2 rounded-md'
+                                key={index}>
+                                {genre.name}
+                            </span>
+                        ))}
                 </div>
                 <div className='my-5 text-justify text-lg'>
                     {truncate(movieDetail.overview, 100)}

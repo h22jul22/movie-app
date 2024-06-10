@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage';
 import UserProvider from './context/UserContext';
 import UserLikedProvider from './context/UserLikedContext';
 import LikedMoviePage from './pages/LikedMoviePage';
+import UserSearchProvider from './context/UserSearchContext';
 
 function App() {
     const [movies, setMovies] = useState([]);
@@ -28,20 +29,22 @@ function App() {
     }, [fetchData]);
 
     return (
-        <UserLikedProvider>
-            <UserProvider>
-                <Routes>
-                    <Route path='/' element={<Layout />}>
-                        <Route index element={<MainPage movies={movies} />} />
-                        <Route path=':movieId' element={<DetailPage />} />
-                        <Route path='signUp' element={<SignUpPage />} />
-                        <Route path='login' element={<LoginPage />} />
-                        <Route path='search' element={<SearchPage />} />
-                        <Route path='likeList' element={<LikedMoviePage />} />
-                    </Route>
-                </Routes>
-            </UserProvider>
-        </UserLikedProvider>
+        <UserProvider>
+            <UserLikedProvider>
+                <UserSearchProvider>
+                    <Routes>
+                        <Route path='/' element={<Layout />}>
+                            <Route index element={<MainPage movies={movies} />} />
+                            <Route path=':movieId' element={<DetailPage />} />
+                            <Route path='signUp' element={<SignUpPage />} />
+                            <Route path='login' element={<LoginPage />} />
+                            <Route path='search' element={<SearchPage />} />
+                            <Route path='likeList' element={<LikedMoviePage />} />
+                        </Route>
+                    </Routes>
+                </UserSearchProvider>
+            </UserLikedProvider>
+        </UserProvider>
     );
 }
 

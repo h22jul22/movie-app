@@ -2,7 +2,7 @@ import SignUp from '../../components/SignUp';
 
 const SignUpPage = () => {
     return (
-        <div className='mt-14 w-screen h-full'>
+        <div className='mt-24 w-screen h-full'>
             <SignUp />
         </div>
     );

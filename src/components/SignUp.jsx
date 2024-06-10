@@ -11,15 +11,62 @@ const SignUp = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [checkedPassword, setCheckedPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [nameError, setNameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
     const navigator = useNavigate();
-
     const auth = getAuth(app);
+
+    const nameRegex = /.+/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^.{8,}$/;
+
+    const validateName = (name) => {
+        if (!nameRegex.test(name)) {
+            setNameError('이름을 입력해주세요.');
+        } else {
+            setNameError('');
+        }
+    };
+
+    const validateEmail = (email) => {
+        if (!emailRegex.test(email)) {
+            setEmailError('정확한 이메일 주소를 입력해주세요.');
+        } else {
+            setEmailError('');
+        }
+    };
+
+    const validatePassword = (password) => {
+        if (!passwordRegex.test(password)) {
+            setPasswordError('비밀번호는 최소 8자리 이상이어야됩니다.');
+        } else {
+            setPasswordError('');
+        }
+    };
+
+    const validateConfirmPassword = (password, confirmPassword) => {
+        if (password !== confirmPassword) {
+            setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
+        } else {
+            setConfirmPasswordError('');
+        }
+    };
 
     const handleSignUp = async (e) => {
         e.preventDefault();
-        if (name && email && password && checkedPassword) {
-            if (password === checkedPassword) {
+        validateEmail(email);
+        validatePassword(password);
+        validateConfirmPassword(password, confirmPassword);
+
+        if (name && email && password && confirmPassword) {
+            if (
+                emailRegex.test(email) &&
+                passwordRegex.test(password) &&
+                password === confirmPassword
+            ) {
                 await createUserWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
                         console.log('userData', userCredential.user);
@@ -30,11 +77,7 @@ const SignUp = () => {
                         console.log(error.code, error.message);
                         alert(error.message);
                     });
-            } else {
-                alert('비밀번호가 일치하지 않습니다.');
             }
-        } else {
-            alert('* 모든 항목은 필수 항목입니다.');
         }
     };
 
@@ -59,7 +102,9 @@ const SignUp = () => {
                             autoComplete='off'
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            onBlur={() => validateName(name)}
                         />
+                        {emailError && <div className='text-[red]'>{nameError}</div>}
                     </li>
                     <li className={liStyle}>
                         <label className={labelStyle} htmlFor='email'>
@@ -73,7 +118,9 @@ const SignUp = () => {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            onBlur={() => validateEmail(email)}
                         />
+                        {emailError && <div className='text-[red]'>{emailError}</div>}
                     </li>
                     <li className={liStyle}>
                         <label className={labelStyle} htmlFor='pw1'>
@@ -87,7 +134,9 @@ const SignUp = () => {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            onBlur={() => validatePassword(password)}
                         />
+                        {passwordError && <div className='text-[red]'>{passwordError}</div>}
                     </li>
                     <li className={liStyle}>
                         <label className={labelStyle} htmlFor='pw2'>
@@ -99,9 +148,13 @@ const SignUp = () => {
                             name='pw2'
                             id='pw2'
                             required
-                            value={checkedPassword}
-                            onChange={(e) => setCheckedPassword(e.target.value)}
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            onBlur={() => validateConfirmPassword(password, confirmPassword)}
                         />
+                        {confirmPasswordError && (
+                            <div style={{ color: 'red' }}>{confirmPasswordError}</div>
+                        )}
                     </li>
                 </ul>
                 <button

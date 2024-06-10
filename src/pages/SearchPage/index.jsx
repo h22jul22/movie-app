@@ -16,7 +16,9 @@ const SearchPage = () => {
     const navigator = useNavigate();
 
     const fetchSearchMovie = async (searchQuery) => {
-        const response = await axiosIns.get(`/search/movie?query=${searchQuery}`);
+        const response = await axiosIns.get(
+            `/search/movie?include_adult=false&query=${searchQuery}`
+        );
         setSearchMovies(response.data.results);
     };
 
@@ -24,10 +26,18 @@ const SearchPage = () => {
         fetchSearchMovie(debounceSearchQuery);
     }, [debounceSearchQuery]);
 
+    if (searchQuery === null) {
+        return (
+            <div className='mt-20 mb-10 text-center text-lg'>
+                <p>제목으로 검색해보세요.</p>
+            </div>
+        );
+    }
+
     if (searchMovies.length > 0) {
         return (
             <>
-                <div className='mt-20 mb-10 mr-10 text-center text-lg'>
+                <div className='mt-20 mb-10 text-center text-lg'>
                     <p>{`'${searchQuery}'에 대한 검색 결과입니다.`}</p>
                 </div>
                 <ul className='grid lg:grid-cols-5 justify-items-center md:grid-cols-3 sm:!grid-cols-1'>
@@ -42,8 +52,8 @@ const SearchPage = () => {
                                         />
                                         <div className='text-lg font-bold ml-1'>
                                             {movie.title
-                                                ? truncate(movie.title, 30)
-                                                : truncate(movie.original_title, 30)}
+                                                ? truncate(movie.title, 13)
+                                                : truncate(movie.original_title, 13)}
                                         </div>
                                     </div>
                                 </div>
@@ -55,8 +65,8 @@ const SearchPage = () => {
         );
     } else {
         return (
-            <div className='mt-20 mb-10 mr-10 text-center text-lg'>
-                <p>검색 결과가 없습니다.</p>
+            <div className='mt-20 mb-10 text-center text-lg'>
+                <p>{`'${searchQuery}'에 대한 검색 결과가 없습니다.`}</p>
             </div>
         );
     }
