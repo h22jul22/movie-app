@@ -122,7 +122,7 @@ const Nav = () => {
                                 <FiUser className='h-6 w-6 cursor-pointer' />
                             )}
                             <div className=''>
-                                <TiArrowSortedUp className='invisible group-hover/item:visible absolute top-[34px] right-2 text-2xl opacity-90 z-10 font-semibold' />
+                                <TiArrowSortedUp className='invisible group-hover/item:visible absolute top-[34px] right-2 text-2xl opacity-90 z-10 text-black' />
                                 <div className='invisible group-hover/item:visible absolute flex flex-col gap-3 px-3 py-4 w-[130px] top-[48px] opacity-90 z-10 font-semibold shadow-lg shadow-black tracking-wide right-0 bg-black text-white text-center rounded-sm'>
                                     <span
                                         className='flex items-center cursor-pointer'
