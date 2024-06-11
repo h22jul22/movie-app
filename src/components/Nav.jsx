@@ -105,11 +105,10 @@ const Nav = () => {
                                 />
                             )}
                         </div>
-                        <div className='h-10 w-10 text-center bg-sky-600 hover:bg-sky-500 text-white rounded-full cursor-pointer'>
-                            <BsSearch
-                                className='h-5 w-5 mx-auto mt-2.5'
-                                onClick={onSearchClicked}
-                            />
+                        <div
+                            className='h-10 w-10 text-center bg-sky-600 hover:bg-sky-500 text-white rounded-full cursor-pointer'
+                            onClick={onSearchClicked}>
+                            <BsSearch className='h-5 w-5 mx-auto mt-2.5' />
                         </div>
                         <div className='group/item relative h-10 w-10 flex items-center justify-center bg-[rgb(37,123,112)] hover:bg-[rgba(37,123,112,0.8)] text-white rounded-full '>
                             {userData.photoURL ? (
